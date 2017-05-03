@@ -1,6 +1,5 @@
 
-int** make_grid(int x, int y);
 
-void place_cell(int** is, int sidex, int sidey, int x, int y);
+void place_cell(int sidex, int sidey, int is[][sidex], int r, int c);
 
-void play(int** is, int sidex, int sidey);
+void play(int sidex, int sidey, int is[][sidex]);
