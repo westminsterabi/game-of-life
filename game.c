@@ -50,14 +50,15 @@ int check_surroundings(int sidex,
     return p;
 }
 
-void change_condition(int sidex, int sidey, int is[][sidex], int r, int c) {
+void change_condition(int sidex, int sidey, int is[][sidex],
+                      int par[][sidex], int r, int c) {
     int surr = check_surroundings(sidex, sidey, is, r, c);
     if(surr > 3) {
-        is[r][c] = 0;
+        par[r][c] = 0;
     } else if(surr == 3 || surr == 2) {
-        is[r][c] = 1;
+        par[r][c] = 1;
     } else {
-        is[r][c] = 0;
+        par[r][c] = 0;
     }
 }
 
@@ -76,20 +77,34 @@ void print_grid(int sidex, int sidey, int is[][sidex]) {
     printf("---------------------\n");
 }
 
-void new_generation(int sidex, int sidey, int is[][sidex]) {
+void new_generation(int sidex, int sidey, int is[][sidex],
+                    int parallel[][sidex]) {
     int i, j;
     for(i = 0; i < sidey; i++) {
         for(j = 0; j < sidex; j++) {
-            change_condition(sidex, sidey, is, j, i);
+            change_condition(sidex, sidey, is, parallel, j, i);
+        }
+    }
+}
+
+void copy_array(int sidex, int sidey, int src[][sidex], int new[][sidex]) {
+    int i, k;
+    for(i = 0; i < sidey; i++) {
+        for(k = 0; k < sidex; k++) {
+            new[i][k] = src[i][k];
         }
     }
 }
 
 void play(int sidex, int sidey, int is[][sidex]) {
     int i = 0;
+    int is_odd[sidey][sidex];
+    copy_array(sidex, sidey, is, is_odd);
     while(i < 10) {
-        new_generation(sidex, sidey, is);
+        new_generation(sidex, sidey, is, is_odd);
         print_grid(sidex, sidey, is);
+        new_generation(sidex, sidey, is_odd, is);
+        print_grid(sidex, sidey, is_odd);
         i++;
     }
 }
