@@ -19,6 +19,8 @@ void place_cell(int sidex, int sidey, int is[][sidex], int r, int c) {
     is[r][c] = 1;
 }
 
+/* check around the cell and return the number of populated cells
+around it */
 int check_surroundings(int sidex,
                        int sidey, int is[][sidex], int x, int y) {
     int y_less = y - 1;
@@ -42,7 +44,7 @@ int check_surroundings(int sidex,
         is[y_less][x_more] +
         is[y][x_less] +
         is[y][x_more] +
-        is[y_more][x_less] +
+        is[y_more][x] +
         is[y_more][x_less] +
         is[y_more][x_more];
     return p;
