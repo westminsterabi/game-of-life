@@ -4,13 +4,8 @@
 
 int main(int argc, char* argv[]) {
     int is[10][10];
-    int sidex = atoi(argv[1]);
-    int sidey = atoi(argv[2]);
-    int i;
-    for(i = 3; i < argc; i += 2) {
-        place_cell(sidex, sidey, is,
-                   atoi(argv[i]), atoi(argv[i + 1]));
-    }
-
+    int_grid(10, 10, is);
+    place_cell(10, 10, is, 0, 0);
+    print_grid(10, 10, is);
     return 0;
 }

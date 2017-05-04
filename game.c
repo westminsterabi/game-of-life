@@ -1,9 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void int_grid (int sidex, int sidey, int is[][sidex]) {
+    int j, i;
+    for(i = 0; i < sidey; i++) {
+        for(j = 0; j < sidex; j++) {
+            is[i][j] = 0;
+        }
+    }
+}
+
 /* takes two integers and places a cell at those coords */
 void place_cell(int sidex, int sidey, int is[][sidex], int r, int c) {
-    if(r >= sidex || c >= sidey) {
+    if(c >= sidex || r >= sidey) {
         fprintf(stderr, "place_cell: out of grid range\n");
         exit(1);
     }
@@ -39,15 +48,14 @@ int check_surroundings(int sidex,
     return p;
 }
 
-void change_condition(int sidex, int sidey, int is[][sidex], int x, int y) {
-    int* state = &is[y][x];
-    int surr = check_surroundings(sidex, sidey, is, x, y);
+void change_condition(int sidex, int sidey, int is[][sidex], int r, int c) {
+    int surr = check_surroundings(sidex, sidey, is, r, c);
     if(surr > 3) {
-        *state = 0;
+        is[r][c] = 0;
     } else if(surr == 3 || surr == 2) {
-        *state = 1;
+        is[r][c] = 1;
     } else {
-        *state = 0;
+        is[r][c] = 0;
     }
 }
 
@@ -63,6 +71,7 @@ void print_grid(int sidex, int sidey, int is[][sidex]) {
         }
         printf("\n");
     }
+    printf("---------------------\n");
 }
 
 void new_generation(int sidex, int sidey, int is[][sidex]) {
@@ -76,7 +85,7 @@ void new_generation(int sidex, int sidey, int is[][sidex]) {
 
 void play(int sidex, int sidey, int is[][sidex]) {
     int i = 0;
-    while(i < 100) {
+    while(i < 10) {
         new_generation(sidex, sidey, is);
         print_grid(sidex, sidey, is);
         i++;
