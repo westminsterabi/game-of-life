@@ -1,18 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void int_grid (int sidex, int sidey, int is[][sidex]) {
+void int_grid (int w, int h, int is[h][w]) {
     int j, i;
-    for(i = 0; i < sidey; i++) {
-        for(j = 0; j < sidex; j++) {
+    for(i = 0; i < h; i++) {
+        for(j = 0; j < w; j++) {
             is[i][j] = 0;
         }
     }
 }
 
 /* takes two integers and places a cell at those coords */
-void place_cell(int sidex, int sidey, int is[][sidex], int r, int c) {
-    if(c >= sidex || r >= sidey) {
+void place_cell(int w, int h, int is[][w], int r, int c) {
+    if(c >= w || r >= h) {
         fprintf(stderr, "place_cell: out of grid range\n");
         exit(1);
     }
@@ -21,22 +21,22 @@ void place_cell(int sidex, int sidey, int is[][sidex], int r, int c) {
 
 /* check around the cell and return the number of populated cells
 around it */
-int check_surroundings(int sidex,
-                       int sidey, int is[][sidex], int x, int y) {
+int check_surroundings(int w,
+                       int h, int is[][w], int x, int y) {
     int y_less = y - 1;
     if(y == 0) {
-        y_less = sidey - 1;
+        y_less = h - 1;
     }
     int y_more = y + 1;
-    if(y == sidey - 1) {
+    if(y == h - 1) {
         y_more = 0;
     }
     int x_less = x - 1;
     if(x == 0) {
-        x_less = sidex - 1;
+        x_less = w - 1;
     }
     int x_more = x + 1;
-    if(x == sidex - 1) {
+    if(x == w - 1) {
         x_more = 0;
     }
     int p = is[y_less][x_less] +
@@ -50,9 +50,9 @@ int check_surroundings(int sidex,
     return p;
 }
 
-void change_condition(int sidex, int sidey, int is[][sidex],
-                      int par[][sidex], int r, int c) {
-    int surr = check_surroundings(sidex, sidey, is, r, c);
+void change_condition(int w, int h, int is[][w],
+                      int par[][w], int c, int r) {
+    int surr = check_surroundings(w, h, is, c, r);
     if(surr > 3) {
         par[r][c] = 0;
     } else if(surr == 3) {
@@ -64,10 +64,10 @@ void change_condition(int sidex, int sidey, int is[][sidex],
     }
 }
 
-void print_grid(int sidex, int sidey, int is[][sidex]) {
+void print_grid(int w, int h, int is[][w]) {
     int i, j;
-    for(i = 0; i < sidey; i++) {
-        for(j = 0; j < sidex; j++) {
+    for(i = 0; i < h; i++) {
+        for(j = 0; j < w; j++) {
             if(is[i][j] == 1) {
                 printf("*");
             } else {
@@ -76,40 +76,40 @@ void print_grid(int sidex, int sidey, int is[][sidex]) {
         }
         printf("\n");
     }
-    for(i = 0; i < sidex; i++) {
+    for(i = 0; i < w; i++) {
         printf("-");
     }
     printf("\n");
 }
 
-void new_generation(int sidex, int sidey, int is[][sidex],
-                    int parallel[][sidex]) {
-    int i, j;
-    for(i = 0; i < sidey; i++) {
-        for(j = 0; j < sidex; j++) {
-            change_condition(sidex, sidey, is, parallel, j, i);
+void new_generation(int w, int h, int is[][w],
+                    int parallel[][w]) {
+    int r, c;
+    for(r = 0; r < h; r++) {
+        for(c = 0; c < w; c++) {
+            change_condition(w, h, is, parallel, c, r);
         }
     }
 }
 
-void copy_array(int sidex, int sidey, int src[][sidex], int new[][sidex]) {
+void copy_array(int w, int h, int src[][w], int new[][w]) {
     int i, k;
-    for(i = 0; i < sidey; i++) {
-        for(k = 0; k < sidex; k++) {
+    for(i = 0; i < h; i++) {
+        for(k = 0; k < w; k++) {
             new[i][k] = src[i][k];
         }
     }
 }
 
-void play(int sidex, int sidey, int is[][sidex]) {
+void play(int w, int h, int is[][w]) {
     int i = 0;
-    int is_odd[sidey][sidex];
-    copy_array(sidex, sidey, is, is_odd);
+    int is_odd[h][w];
+    copy_array(w, h, is, is_odd);
     while(i < 10) {
-        new_generation(sidex, sidey, is, is_odd);
-        print_grid(sidex, sidey, is);
-        new_generation(sidex, sidey, is_odd, is);
-        print_grid(sidex, sidey, is_odd);
+        new_generation(w, h, is, is_odd);
+        print_grid(w, h, is);
+        new_generation(w, h, is_odd, is);
+        print_grid(w, h, is_odd);
         i++;
     }
 }
