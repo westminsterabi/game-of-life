@@ -55,7 +55,9 @@ void change_condition(int sidex, int sidey, int is[][sidex],
     int surr = check_surroundings(sidex, sidey, is, r, c);
     if(surr > 3) {
         par[r][c] = 0;
-    } else if(surr == 3 || surr == 2) {
+    } else if(surr == 3) {
+        par[r][c] = 1;
+    } else if (surr == 2 && is[r][c] == 1) {
         par[r][c] = 1;
     } else {
         par[r][c] = 0;
@@ -74,7 +76,10 @@ void print_grid(int sidex, int sidey, int is[][sidex]) {
         }
         printf("\n");
     }
-    printf("---------------------\n");
+    for(i = 0; i < sidex; i++) {
+        printf("-");
+    }
+    printf("\n");
 }
 
 void new_generation(int sidex, int sidey, int is[][sidex],
