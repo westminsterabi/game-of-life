@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ncurses.h>
 
 void int_grid (int w, int h, int is[h][w]) {
     int j, i;
