@@ -1,12 +1,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ncurses.h>
 #include "game.h"
 
 int main(int argc, char* argv[]) {
     int h = 24;
     int w = 80;
-    int i, points[argc / 2], j = 0;
+    int i, points[argc], j = 0;
     if (argc > 1){
         for(i = 1; i < argc; i++) {
             if(i + 1 > argc) {

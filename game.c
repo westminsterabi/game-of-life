@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <ncurses.h>
 
+/* this function takes the grid and initializes every point with a zero */
 void int_grid (int w, int h, int is[h][w]) {
     int j, i;
     for(i = 0; i < h; i++) {
@@ -51,6 +52,8 @@ int check_surroundings(int w,
     return p;
 }
 
+/* checks the surroundings of a cell and returns the number of adjacent
+ * populated cells */
 void change_condition(int w, int h, int is[][w],
                       int par[][w], int c, int r) {
     int surr = check_surroundings(w, h, is, c, r);
@@ -65,6 +68,7 @@ void change_condition(int w, int h, int is[][w],
     }
 }
 
+/* prints the grid to the terminal */
 void print_grid(int w, int h, int is[][w]) {
     int i, j;
     for(i = 0; i < h; i++) {
@@ -83,6 +87,7 @@ void print_grid(int w, int h, int is[][w]) {
     printf("\n");
 }
 
+/* kills, revives, or sustains each cell in the grid */
 void new_generation(int w, int h, int is[][w],
                     int parallel[][w]) {
     int r, c;
@@ -93,6 +98,7 @@ void new_generation(int w, int h, int is[][w],
     }
 }
 
+/* takes two arrays and copies every member of the first to the second */
 void copy_array(int w, int h, int src[][w], int new[][w]) {
     int i, k;
     for(i = 0; i < h; i++) {
@@ -102,6 +108,7 @@ void copy_array(int w, int h, int src[][w], int new[][w]) {
     }
 }
 
+/* change states and print the grid to the screen */
 void play(int w, int h, int is[][w]) {
     int i = 0;
     int is_odd[h][w];
